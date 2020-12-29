@@ -139,6 +139,11 @@ print_static_reg_debug_info(void *mmio_base)
 			FPGA_5GNR_FEC_LOAD_BALANCE_FACTOR);
 	uint16_t ring_desc_len = fpga_reg_read_16(mmio_base,
 			FPGA_5GNR_FEC_RING_DESC_LEN);
+	uint16_t flr_time_out = fpga_reg_read_16(mmio_base,
+			FPGA_5GNR_FEC_FLR_TIME_OUT);
+	uint32_t harq_buff_size = fpga_reg_read_32(mmio_base,
+			FPGA_5GNR_FEC_HARQ_BUF_SIZE_REGS);
+
 
 	printf("FEC FPGA RTL v%u.%u\n",
 		((uint16_t)(version_id >> 16)), ((uint16_t)version_id));
@@ -150,6 +155,10 @@ print_static_reg_debug_info(void *mmio_base)
 			(qmap_done > 0) ? "READY" : "NOT-READY");
 	printf("Ring Descriptor Size = %u bytes\n",
 			ring_desc_len*FPGA_RING_DESC_LEN_UNIT_BYTES);
+	printf("FLR timeout = %u usec\n",
+			flr_time_out);
+	printf("HARQ buff size = %u\n",
+			harq_buff_size);
 
 	printf("\n--------+-----+-----+-----+-----+-----+-----+-----+-----+-----+\n");
 	printf("        |  PF | VF0 | VF1 | VF2 | VF3 | VF4 | VF5 | VF6 | VF7 |\n");
