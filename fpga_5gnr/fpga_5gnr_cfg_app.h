@@ -49,6 +49,7 @@ enum {
 	FPGA_5GNR_FEC_QUEUE_PF_VF_MAP_DONE = 0x00000008, /* len: 1B */
 	FPGA_5GNR_FEC_LOAD_BALANCE_FACTOR = 0x0000000a, /* len: 2B */
 	FPGA_5GNR_FEC_RING_DESC_LEN = 0x0000000c, /* len: 2B */
+	FPGA_5GNR_FEC_FLR_TIME_OUT = 0x0000000e, /* len: 2B */
 	FPGA_5GNR_FEC_VFQ_FLUSH_STATUS_LW = 0x00000018, /* len: 4B */
 	FPGA_5GNR_FEC_VFQ_FLUSH_STATUS_HI = 0x0000001c, /* len: 4B */
 	FPGA_5GNR_FEC_QUEUE_MAP = 0x00000040, /* len: 256B */
@@ -97,6 +98,8 @@ fpga_5gnr_fec_conf {
 	uint8_t ul_load_balance;
 	/**< DL Load Balance */
 	uint8_t dl_load_balance;
+	/**< FLR timeout value */
+	uint16_t flr_time_out;
 };
 
 /**

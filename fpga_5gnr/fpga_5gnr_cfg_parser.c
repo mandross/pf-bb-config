@@ -30,12 +30,14 @@
 #define MODE "MODE"
 #define UL "UL"
 #define DL "DL"
+#define FLR "FLR"
 
 /* Names of entries in sections used in the configuration file */
 #define PFMODE "pf_mode_en"
 #define BANDWIDTH "bandwidth"
 #define LOAD_BALANCE "load_balance"
 #define QUEUE_MAP "vfqmap"
+#define FLR_TIME_OUT "flr_time_out"
 
 /* Default values for FPGA device configuration variables */
 #define DEFAULT_PF_MODE_EN 1
@@ -65,6 +67,25 @@ parse_number8(const char *str, uint8_t *value)
 	}
 
 	*value = (uint8_t) val;
+	return 1;
+}
+
+static int
+parse_number16(const char *str, uint16_t *value)
+{
+	uint64_t val = 0;
+	char *end;
+
+	if (str == NULL)
+		return -EINVAL;
+
+	val = strtoul(str, &end, 0);
+	if (val > UINT16_MAX || str == end) {
+		printf("ERROR: Invalid value %" PRIu64 "\n", val);
+		return -ERANGE;
+	}
+
+	*value = (uint16_t) val;
 	return 1;
 }
 
@@ -142,6 +163,8 @@ fpga_handler(void *user, const char *section,
 		ret = parse_array8(value, fpga_conf->vf_ul_queues_number);
 	} else if (!strcmp(section, DL) && !strcmp(name, QUEUE_MAP)) {
 		ret = parse_array8(value, fpga_conf->vf_dl_queues_number);
+	} else if (!strcmp(section, FLR) && !strcmp(name, FLR_TIME_OUT)) {
+		ret = parse_number16(value, &fpga_conf->flr_time_out);
 	} else {
 		printf("ERROR: Section (%s) or name (%s) is not valid.\n",
 		       section, name);
